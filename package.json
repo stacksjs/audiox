@@ -1,5 +1,5 @@
 {
-  "name": "audiox",
+  "name": "@stacksjs/audiox",
   "type": "module",
   "version": "0.1.0",
   "description": "Powerful audio processing for your media workflows.",
