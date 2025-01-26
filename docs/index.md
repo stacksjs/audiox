@@ -4,8 +4,8 @@ layout: home
 
 hero:
   name: "audiox"
-  text: "For a better local environment."
-  tagline: "Modern and smart reverse proxy."
+  text: "Audio processing made simple."
+  tagline: "A TypeScript audio processing library & CLI powered by ffmpeg."
   image: /images/logo-white.png
   actions:
     - theme: brand
@@ -16,18 +16,24 @@ hero:
       link: https://github.com/stacksjs/audiox
 
 features:
-  - title: "Smart Reverse Proxy"
-    icon: "🔀"
-    details: "Pretty development URLs for your local environment."
-  - title: "HTTPS Support"
-    icon: "🔒"
-    details: "Automatic, and configurable, HTTPS support."
-  - title: "`/etc/hosts` Management"
+  - title: "Powerful Audio Processing"
+    icon: "🎵"
+    details: "Convert, optimize, and process audio files with ease using ffmpeg."
+  - title: "Stream Processing"
+    icon: "📊"
+    details: "Handle audio streams efficiently with built-in stream processing support."
+  - title: "Metadata Management"
     icon: "📝"
-    details: "Self-cleans your `/etc/hosts` file."
+    details: "Read and write audio metadata with comprehensive tag support."
+  - title: "Multiple Formats"
+    icon: "🔄"
+    details: "Support for WAV, MP3, AAC, and more audio formats."
+  - title: "Strongly Typed"
+    icon: "📘"
+    details: "Fully typed with TypeScript for a better development experience."
   - title: "CLI & Library"
     icon: "🛠"
-    details: "Use the CLI or the library in your own project."
+    details: "Use as a command-line tool or integrate into your Node.js/Bun projects."
 ---
 
 <Home />
