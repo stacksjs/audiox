@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.0...main
+
+[compare changes](https://github.com/stacksjs/audiox/compare/v0.1.0...main)
+
+### 🏡 Chore
+
+- Rename package ([3a30bf0](https://github.com/stacksjs/audiox/commit/3a30bf0))
+
+### ❤️ Contributors
+
+- Chris ([@chrisbbreuer](http://github.com/chrisbbreuer))
+
 ## ...main
 
 
