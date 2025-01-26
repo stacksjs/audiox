@@ -1,6 +1,17 @@
 # Changelog
 
 
+## ...main
+
+
+### 🏡 Chore
+
+- Initial commit ([a5d1798](https://github.com/stacksjs/audiox/commit/a5d1798))
+
+### ❤️ Contributors
+
+- Chris ([@chrisbbreuer](http://github.com/chrisbbreuer))
+
 ## v0.9.0...main
 
 [compare changes](https://github.com/stacksjs/rpx/compare/v0.9.0...main)

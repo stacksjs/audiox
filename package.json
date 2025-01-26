@@ -1,7 +1,7 @@
 {
   "name": "audiox",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Powerful audio processing for your media workflows.",
   "author": "Chris Breuer <chris@stacksjs.org>",
   "license": "MIT",
