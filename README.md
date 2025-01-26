@@ -89,6 +89,93 @@ const wavData = await audioWav(new Uint8Array(arrayBuffer))
 await Bun.write('output.wav', wavData)
 ```
 
+### CLI Usage
+
+Once installed globally or locally in your project, you can use audiox from the command line:
+
+```bash
+# Global installation
+npm install -g @stacksjs/audiox
+
+# Using npx with local installation
+npx audiox [command] [options]
+
+# Using bun
+bunx audiox [command] [options]
+```
+
+#### Basic Commands
+
+Convert audio files with default settings:
+
+```bash
+audiox convert input.mp3 output.wav
+```
+
+Get audio file information:
+
+```bash
+audiox info input.mp3
+```
+
+#### Convert Command Options
+
+```bash
+audiox convert <input> <output> [options]
+
+Options:
+  --codec <codec>           Audio codec (aac, mp3, pcm_s16le)
+  --bitrate <bitrate>       Audio bitrate (e.g., "192k")
+  --channels <number>       Number of channels (1, 2, 5.1, 7.1)
+  --sample-rate <rate>      Sample rate (8000, 16000, 44100, 48000)
+  --quality <number>        Audio quality setting
+  -m, --metadata <data>     Set metadata (format: key=value)
+  -v, --verbose            Enable verbose output
+```
+
+#### Examples
+
+Convert to WAV with specific settings:
+
+```bash
+audiox convert input.mp3 output.wav --codec pcm_s16le --channels 1 --sample-rate 16000 --bitrate 128k
+```
+
+Convert to MP3 with metadata:
+
+```bash
+audiox convert input.wav output.mp3 --codec mp3 --bitrate 192k \
+  --metadata title="My Song" \
+  --metadata artist="Artist Name" \
+  --metadata year=2024
+```
+
+Get detailed audio information including metadata:
+
+```bash
+audiox info input.mp3 --metadata title,artist,album,year
+```
+
+#### Configuration
+
+You can create a `audiox.config.js` or `audiox.config.ts` file in your project root to set default options:
+
+```ts
+import type { AudioxOptions } from './src/types'
+
+const config: AudioxOptions = {
+  codec: 'mp3',
+  bitrate: '192k',
+  channels: 2,
+  sampleRate: 44100,
+  verbose: true
+}
+
+export default config
+```
+
+The CLI will automatically use these defaults unless overridden by command-line options.
+
 ### Advanced Usage
 
 #### Stream Processing with Custom Handlers
