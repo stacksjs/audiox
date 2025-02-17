@@ -9,6 +9,7 @@ const input = `${import.meta.dir}/samples/input.mp3`
 const output = {
   wav: `${import.meta.dir}/samples/output.wav`,
   mp3: `${import.meta.dir}/samples/output.mp3`,
+  aac: `${import.meta.dir}/samples/output.aac`,
 }
 
 describe('audio', () => {
@@ -23,6 +24,7 @@ describe('audio', () => {
           onError: (error: any) => {
             throw error
           },
+          verbose: false,
         }),
     ).toThrowError()
   })
@@ -33,6 +35,7 @@ describe('audio', () => {
       channels: 1,
       sampleRate: 16000,
       bitrate: '160k',
+      verbose: false,
     })
 
     expect(await Bun.file(output.wav).exists()).toBeTrue()
@@ -58,6 +61,7 @@ describe('audio', () => {
       bitrate: '192k',
       channels: 2,
       sampleRate: 44100,
+      verbose: false,
       metadata: {
         title: 'track title',
         artist: 'track artist',
@@ -103,6 +107,67 @@ describe('audio', () => {
     await unlink(output.mp3)
   })
 
+  it('audio: test with quality option', async () => {
+    await audio(input, output.mp3, {
+      codec: 'mp3',
+      bitrate: '192k',
+      channels: 2,
+      sampleRate: 44100,
+      quality: 0,
+      verbose: false,
+    })
+
+    expect(await Bun.file(output.mp3).exists()).toBeTrue()
+
+    const result = await audioInfo(output.mp3, {
+      metadataTags: ['title', 'artist', 'album', 'track', 'genre', 'composer', 'comment', 'year', 'encoder'],
+    })
+
+    // Check the basic audio properties
+    expect(result[0]).toMatchObject({
+      codec: 'mp3',
+      channels: 2,
+      sampleRate: '44100',
+    })
+
+    // Verify bitrate is within reasonable range
+    const actualBitrate = Number.parseInt(result[0].bitrate)
+    expect(actualBitrate).toBeGreaterThan(150000) // ~150kbps
+    expect(actualBitrate).toBeLessThan(250000) // ~250kbps
+
+    // Verify duration is within reasonable range
+    const actualDuration = Number.parseFloat(result[0].duration)
+    expect(actualDuration).toBeGreaterThan(10) // At least 10 seconds
+    expect(actualDuration).toBeLessThan(15) // Less than 15 seconds
+
+    await unlink(output.mp3)
+  })
+
+  it('audio: test with only codec', async () => {
+    await audio(input, output.mp3, {
+      codec: 'mp3',
+      verbose: false,
+    })
+
+    expect(await Bun.file(output.mp3).exists()).toBeTrue()
+
+    const result = await audioInfo(output.mp3, {
+      metadataTags: ['title', 'artist', 'album', 'track', 'genre', 'composer', 'comment', 'year', 'encoder'],
+    })
+
+    // Check the basic audio properties
+    expect(result[0]).toMatchObject({
+      codec: 'mp3',
+    })
+
+    // Verify duration is within reasonable range
+    const actualDuration = Number.parseFloat(result[0].duration)
+    expect(actualDuration).toBeGreaterThan(10) // At least 10 seconds
+    expect(actualDuration).toBeLessThan(15) // Less than 15 seconds
+
+    await unlink(output.mp3)
+  })
+
   it('audioWithStreamInput: normal test ', async () => {
     const file = Bun.file(input)
     const stream = file.stream()
@@ -112,6 +177,7 @@ describe('audio', () => {
       bitrate: '128k',
       channels: 1,
       sampleRate: 16000,
+      verbose: false,
     })
 
     expect(await Bun.file(output.wav).exists()).toBeTrue()
@@ -135,6 +201,7 @@ describe('audio', () => {
           bitrate: '128k',
           channels: 1,
           sampleRate: 16000,
+          verbose: false,
         },
       )
     })
@@ -176,6 +243,7 @@ describe('audio', () => {
           bitrate: '128k',
           channels: 1,
           sampleRate: 16000,
+          verbose: false,
         },
       )
     })
@@ -235,6 +303,7 @@ describe('audio', () => {
           bitrate: '128k',
           channels: 1,
           sampleRate: 16000,
+          verbose: false,
         },
       )
     })
@@ -275,6 +344,54 @@ describe('audio', () => {
     ])
 
     await unlink(output.wav)
+  })
+
+  it('audio: AAC conversion with custom settings', async () => {
+    await audio(input, output.aac, {
+      codec: 'aac',
+      bitrate: '256k',
+      channels: 2,
+      sampleRate: 48000,
+      verbose: false,
+      metadata: {
+        title: 'AAC Test',
+        artist: 'Test Artist',
+        album: 'Test Album',
+        year: '2024',
+      },
+    })
+
+    expect(await Bun.file(output.aac).exists()).toBeTrue()
+
+    const result = await audioInfo(output.aac, {
+      metadataTags: ['title', 'artist', 'album', 'year'],
+    })
+
+    // Check the basic audio properties
+    expect(result[0]).toMatchObject({
+      codec: 'aac',
+      channels: 2,
+      sampleRate: '48000',
+    })
+
+    // Verify bitrate is within reasonable range (±20% of target)
+    const actualBitrate = Number.parseInt(result[0].bitrate)
+    expect(actualBitrate).toBeGreaterThan(200000) // ~200kbps
+    expect(actualBitrate).toBeLessThan(300000) // ~300kbps
+
+    // Verify duration is within reasonable range
+    const actualDuration = Number.parseFloat(result[0].duration)
+    expect(actualDuration).toBeGreaterThan(10) // At least 10 seconds
+    expect(actualDuration).toBeLessThan(15) // Less than 15 seconds
+
+    // Verify metadata exists if supported by the codec
+    if (result[0].metadata) {
+      expect(result[0].metadata).toMatchObject({
+        title: 'AAC Test',
+      })
+    }
+
+    await unlink(output.aac)
   })
 })
 
