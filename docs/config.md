@@ -1,54 +1,60 @@
 # Configuration
 
-The Reverse Proxy can be configured using a `audiox.config.ts` _(or `audiox.config.js`)_ file and it will be automatically loaded when running the `reverse-proxy` command.
+Audiox can be configured using a `audiox.config.ts` _(or `audiox.config.js`)_ file in your project root. This configuration will be automatically loaded when running the `audiox` commands.
 
 ```ts
 // audiox.config.{ts,js}
-import type { ReverseProxyOptions } from '@stacksjs/audiox'
-import os from 'node:os'
-import path from 'node:path'
+import type { AudioxOptions } from '@stacksjs/audiox'
 
-const config: ReverseProxyOptions = {
+const config: AudioxOptions = {
   /**
-   * The from URL to proxy from.
-   * Default: localhost:5173
+   * The audio codec to use.
+   * Default: 'mp3'
+   * Options: 'aac', 'mp3', 'pcm_s16le'
    */
-  from: 'localhost:5173',
-
-  /**
-   * The to URL to proxy to.
-   * Default: stacks.localhost
-   */
-  to: 'stacks.localhost',
+  codec: 'mp3',
 
   /**
-   * The HTTPS settings.
-   * Default: true
-   * If set to false, the proxy will use HTTP.
-   * If set to true, the proxy will use HTTPS.
-   * If set to an object, the proxy will use HTTPS with the provided settings.
+   * The audio bitrate.
+   * Default: '192k'
+   * Example values: '128k', '256k', '320k'
    */
-  https: {
-    domain: 'stacks.localhost',
-    hostCertCN: 'stacks.localhost',
-    caCertPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.ca.crt`),
-    certPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.crt`),
-    keyPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.crt.key`),
-    altNameIPs: ['127.0.0.1'],
-    altNameURIs: ['localhost'],
-    organizationName: 'stacksjs.org',
-    countryName: 'US',
-    stateName: 'California',
-    localityName: 'Playa Vista',
-    commonName: 'stacks.localhost',
-    validityDays: 180,
-    verbose: false,
+  bitrate: '192k',
+
+  /**
+   * The number of audio channels.
+   * Default: 2
+   * Options: 1 (mono), 2 (stereo), 5.1 (surround), 7.1 (surround)
+   */
+  channels: 2,
+
+  /**
+   * The audio sample rate in Hz.
+   * Default: 44100
+   * Common values: 8000, 16000, 44100, 48000
+   */
+  sampleRate: 44100,
+
+  /**
+   * The audio quality setting (0-9).
+   * Lower values mean higher quality.
+   * Only applicable for certain codecs.
+   */
+  quality: 0,
+
+  /**
+   * Default metadata to apply to converted files.
+   * These can be overridden per conversion.
+   */
+  metadata: {
+    artist: 'Default Artist',
+    album: 'Default Album',
+    year: '2024',
   },
 
   /**
-   * The verbose setting.
+   * Enable verbose output for debugging.
    * Default: false
-   * If set to true, the proxy will log more information.
    */
   verbose: false,
 }
@@ -56,10 +62,45 @@ const config: ReverseProxyOptions = {
 export default config
 ```
 
-_Then run:_
+## Using the Configuration
+
+The configuration file will be automatically used by both the CLI and library functions. You can override these settings per command or function call:
+
+### CLI Override
 
 ```bash
-./audiox start
+# Override config settings via CLI
+audiox convert input.mp3 output.wav \
+  --codec pcm_s16le \
+  --channels 1 \
+  --sample-rate 16000 \
+  --bitrate 128k
 ```
 
-To learn more, head over to the [documentation](https://reverse-proxy.sh/).
+### Library Override
+
+```ts
+import { audio } from '@stacksjs/audiox'
+
+// Override config settings in function call
+await audio('input.mp3', 'output.wav', {
+  codec: 'pcm_s16le',
+  channels: 1,
+  sampleRate: 16000,
+  bitrate: '128k',
+})
+```
+
+## Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `codec` | string | 'mp3' | Audio codec to use (aac, mp3, pcm_s16le) |
+| `bitrate` | string | '192k' | Audio bitrate (e.g., '128k', '256k') |
+| `channels` | number | 2 | Number of audio channels |
+| `sampleRate` | number | 44100 | Sample rate in Hz |
+| `quality` | number | - | Quality setting (0-9, lower is better) |
+| `metadata` | object | - | Default metadata for audio files |
+| `verbose` | boolean | false | Enable verbose output |
+
+To learn more about audio processing options, check out the [FFmpeg documentation](https://ffmpeg.org/documentation.html).

@@ -1,21 +1,66 @@
 <p align="center"><img src="https://github.com/stacksjs/audiox/blob/main/.github/art/cover.jpg?raw=true" alt="Social Card of this repo"></p>
 
-# A Better Developer Experience
+# Audio Processing Made Simple
 
-> A zero-config reverse proxy for local development with SSL support, custom domains, and more.
+> A TypeScript-based audio processing library & CLI that wraps ffmpeg, helping you optimize audio files in Node.js/Bun environments.
 
 ## Features
 
-- Simple, lightweight Reverse Proxy
-- Custom Domains _(with wildcard support)_
-- Zero-Config Setup
-- SSL Support _(HTTPS by default)_
-- Auto HTTP-to-HTTPS Redirection
-- Self `/etc/hosts` Management
+- **Audio Conversion & Optimization**
+  - Convert between various audio formats (WAV, MP3, AAC)
+  - Customize bitrate, sample rate, and channels
+  - Optimize audio quality for different use cases
 
-## Changelog
+- **Stream Processing**
+  - Process audio using Node.js/Bun streams
+  - Handle large files efficiently
+  - Support for buffer-based processing
 
-Please see our [releases](https://github.com/stacksjs/stacks/releases) page for more information on what has changed recently.
+- **Metadata Management**
+  - Read and write ID3 tags and other metadata
+  - Support for common metadata fields
+  - Batch metadata operations
+
+- **Developer Experience**
+  - Fully typed with TypeScript
+  - Intuitive CLI interface
+  - Comprehensive documentation
+  - Easy integration with existing projects
+
+- **Flexible Usage**
+  - Use as a CLI tool
+  - Import as a library
+  - Configure via config file
+  - Override settings per operation
+
+## Quick Start
+
+1. Install FFmpeg and audiox:
+
+```bash
+# Install FFmpeg
+brew install ffmpeg  # macOS
+# or
+sudo apt install ffmpeg  # Ubuntu/Debian
+
+# Install audiox
+npm install -g @stacksjs/audiox
+```
+
+2. Convert an audio file:
+
+```bash
+# Using CLI
+audiox convert input.mp3 output.wav --codec pcm_s16le --channels 1
+
+# Using library
+import { audio } from '@stacksjs/audiox'
+
+await audio('input.mp3', 'output.wav', {
+  codec: 'pcm_s16le',
+  channels: 1,
+})
+```
 
 ## Contributing
 

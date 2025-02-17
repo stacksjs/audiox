@@ -1,8 +1,40 @@
 # Install
 
-Installing `audiox` is easy. Simply pull it in via your package manager of choice, or download the binary directly.
+## Prerequisites
 
-## Package Managers
+Before installing `audiox`, make sure you have FFmpeg installed on your system:
+
+::: code-group
+
+```sh [macOS]
+# Using Homebrew
+brew install ffmpeg
+
+# Using MacPorts
+port install ffmpeg
+```
+
+```sh [Linux (Debian/Ubuntu)]
+sudo apt update
+sudo apt install ffmpeg
+```
+
+```sh [Linux (RHEL/CentOS)]
+sudo yum install epel-release
+sudo yum install ffmpeg
+```
+
+```sh [Windows]
+# Using Chocolatey
+choco install ffmpeg
+
+# Using Scoop
+scoop install ffmpeg
+```
+
+:::
+
+## Package Installation
 
 Choose your package manager of choice:
 
@@ -51,9 +83,7 @@ pkgx audiox # coming soon
 
 :::
 
-Read more about how to use it in the Usage section of the documentation.
-
-## Binaries
+## Binary Installation
 
 Choose the binary that matches your platform and architecture:
 
@@ -111,6 +141,22 @@ curl -L https://github.com/stacksjs/audiox/releases/download/v0.9.1/audiox-windo
 move audiox.exe C:\Windows\System32\audiox.exe
 ```
 
+:::
+
 ::: tip
 You can also find the `audiox` binaries in GitHub [releases](https://github.com/stacksjs/audiox/releases).
 :::
+
+## Verifying Installation
+
+After installation, verify that both `audiox` and `ffmpeg` are properly installed:
+
+```bash
+# Check audiox version
+audiox version
+
+# Check ffmpeg version
+ffmpeg -version
+```
+
+Read more about how to use it in the [Usage](./usage.md) section of the documentation.

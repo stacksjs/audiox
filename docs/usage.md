@@ -1,85 +1,153 @@
 # Get Started
 
-There are two ways of using this reverse proxy: _as a library or as a CLI._
+There are two ways of using this audio processing tool: _as a library or as a CLI._
 
-## Library
+## Library Usage
 
 Given the npm package is installed:
 
 ```ts
-import type { TlsConfig } from '@stacksjs/audiox'
-import { startProxy } from '@stacksjs/audiox'
+import { audio, audioInfo } from '@stacksjs/audiox'
 
-export interface CleanupConfig {
-  hosts: boolean // clean up /etc/hosts, defaults to false
-  certs: boolean // clean up certificates, defaults to false
-}
+// Basic audio conversion
+await audio('input.mp3', 'output.wav', {
+  codec: 'pcm_s16le',
+  channels: 1,
+  sampleRate: 16000,
+  bitrate: '160k',
+})
 
-export interface ReverseProxyConfig {
-  from: string // domain to proxy from, defaults to localhost:3000
-  to: string // domain to proxy to, defaults to stacks.localhost
-  cleanUrls?: boolean // removes the .html extension from URLs, defaults to false
-  https: boolean | TlsConfig // automatically uses https, defaults to true, also redirects http to https
-  cleanup?: boolean | CleanupConfig // automatically cleans up /etc/hosts, defaults to false
-  verbose: boolean // log verbose output, defaults to false
-}
+// Get audio file information
+const info = await audioInfo('audio.mp3')
+console.log(info)
+// [
+//   {
+//     codec: 'mp3',
+//     channels: 2,
+//     sampleRate: '44100',
+//     bitrate: '192000',
+//     duration: '180.5',
+//   }
+// ]
 
-const config: ReverseProxyOptions = {
-  from: 'localhost:3000',
-  to: 'my-docs.localhost',
-  cleanUrls: true,
-  https: true,
-  cleanup: false,
-}
-
-startProxy(config)
+// Convert with metadata
+await audio('input.mp3', 'output.mp3', {
+  codec: 'mp3',
+  bitrate: '192k',
+  channels: 2,
+  sampleRate: 44100,
+  metadata: {
+    title: 'My Track',
+    artist: 'Artist Name',
+    album: 'Album Name',
+    year: '2024',
+  },
+})
 ```
 
-In case you are trying to start multiple proxies, you may use this configuration:
+### Advanced Usage with Streams
 
 ```ts
-// audiox.config.{ts,js}
-import type { ReverseProxyOptions } from '@stacksjs/audiox'
-import os from 'node:os'
-import path from 'node:path'
+// Stream processing
+const file = Bun.file('input.mp3')
+const stream = file.stream()
 
-const config: ReverseProxyOptions = {
-  https: { // https: true -> also works with sensible defaults
-    caCertPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.ca.crt`),
-    certPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.crt`),
-    keyPath: path.join(os.homedir(), '.stacks', 'ssl', `stacks.localhost.crt.key`),
-  },
+await audioWithStreamInput(stream, 'output.wav', {
+  codec: 'pcm_s16le',
+  bitrate: '128k',
+  channels: 1,
+  sampleRate: 16000,
+})
 
-  cleanup: {
-    hosts: true,
-    certs: false,
-  },
+// Buffer processing
+const arrayBuffer = await Bun.file('input.mp3').arrayBuffer()
+const wavData = await audioWav(new Uint8Array(arrayBuffer))
+await Bun.write('output.wav', wavData)
+```
 
-  proxies: [
-    {
-      from: 'localhost:5173',
-      to: 'my-app.localhost',
-      cleanUrls: true,
-    },
-    {
-      from: 'localhost:5174',
-      to: 'my-api.local',
-    },
-  ],
+### Configuration
 
+You can create a `audiox.config.ts` (or `audiox.config.js`) file in your project root to set default options:
+
+```ts
+import type { AudioxOptions } from '@stacksjs/audiox'
+
+const config: AudioxOptions = {
+  codec: 'mp3',
+  bitrate: '192k',
+  channels: 2,
+  sampleRate: 44100,
   verbose: true,
 }
 
 export default config
 ```
 
-## CLI
+## CLI Usage
+
+The CLI provides easy access to audio conversion and information features:
+
+### Basic Commands
 
 ```bash
-audiox --from localhost:3000 --to my-project.localhost
-audiox --from localhost:8080 --to my-project.test --keyPath ./key.pem --certPath ./cert.pem
+# Convert audio files
+audiox convert input.mp3 output.wav --codec pcm_s16le
+audiox convert podcast.mp3 podcast.aac --codec aac --bitrate 128k
+
+# Get audio information
+audiox info music.mp3
+audiox info podcast.mp3 --metadata title,artist,album
+
+# Show help and version
 audiox --help
-audiox --version
+audiox version
+```
+
+### Convert Command Options
+
+```bash
+# Convert to WAV with specific settings
+audiox convert input.mp3 output.wav \
+  --codec pcm_s16le \
+  --channels 1 \
+  --sample-rate 16000 \
+  --bitrate 128k
+
+# Convert to MP3 with metadata
+audiox convert input.wav output.mp3 \
+  --codec mp3 \
+  --bitrate 192k \
+  --metadata "title=My Song,artist=Artist Name,year=2024"
+
+# Convert to AAC with high quality
+audiox convert input.mp3 output.aac \
+  --codec aac \
+  --bitrate 256k \
+  --channels 2 \
+  --sample-rate 48000
+```
+
+Available options for conversion:
+
+- `--codec`: Audio codec (aac, mp3, pcm_s16le)
+- `--bitrate`: Audio bitrate (e.g., "192k")
+- `--channels`: Number of channels (1, 2, 5.1, 7.1)
+- `--sample-rate`: Sample rate (8000, 16000, 44100, 48000)
+- `--quality`: Audio quality setting (0-9)
+- `--metadata`: Metadata in format key=value,key2=value2
+- `--verbose`: Enable verbose output
+
+### Info Command
+
+```bash
+# Get basic audio information
+audiox info music.mp3
+
+# Get specific metadata
+audiox info podcast.mp3 --metadata title,artist,album,year
+
+# Get info with verbose output
+audiox info music.mp3 --verbose
 ```
 
 ## Testing
@@ -87,3 +155,10 @@ audiox --version
 ```bash
 bun test
 ```
+
+## Requirements
+
+- Node.js/Bun environment
+- FFmpeg installed on your system
+
+For more detailed information about specific features and options, check out our [configuration guide](./config.md).
