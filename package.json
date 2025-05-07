@@ -68,17 +68,17 @@
     "zip:darwin-arm64": "zip -j bin/audiox-darwin-arm64.zip bin/audiox-darwin-arm64"
   },
   "devDependencies": {
-    "@stacksjs/docs": "^0.69.3",
+    "@stacksjs/docs": "^0.70.23",
     "@stacksjs/eslint-config": "^3.13.1-beta.2",
     "@stacksjs/tlsx": "^0.10.0",
-    "@types/bun": "^1.2.2",
-    "bumpp": "^10.0.3",
-    "bun-plugin-dtsx": "^0.21.9",
-    "bunfig": "^0.7.0",
+    "@types/bun": "^1.2.12",
+    "bumpp": "^10.1.0",
+    "bun-plugin-dtsx": "^0.21.12",
+    "bunfig": "^0.8.5",
     "cac": "^6.7.14",
-    "changelogen": "^0.5.7",
-    "consola": "^3.4.0",
-    "typescript": "^5.7.3",
+    "changelogen": "^0.6.1",
+    "consola": "^3.4.2",
+    "typescript": "^5.8.3",
     "unocss": "^65.5.0"
   },
   "overrides": {
