@@ -1,5 +1,4 @@
 import type { HeadConfig } from 'vitepress'
-import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { withPwa } from '@vite-pwa/vitepress'
 import { defineConfig } from 'vitepress'
 
@@ -60,8 +59,26 @@ const sidebar = [
       { text: 'Config', link: '/config' },
     ],
   },
-  { text: 'Showcase', link: '/Showcase' },
+  {
+    text: 'Features',
+    items: [
+      { text: 'Overview', link: '/features/' },
+      { text: 'Audio Conversion', link: '/features/audio-conversion' },
+      { text: 'CLI Usage', link: '/features/cli-usage' },
+    ],
+  },
+  {
+    text: 'Advanced',
+    items: [
+      { text: 'Overview', link: '/advanced/' },
+      { text: 'Stream Processing', link: '/advanced/stream-processing' },
+      { text: 'Metadata Handling', link: '/advanced/metadata-handling' },
+    ],
+  },
+  { text: 'API Reference', link: '/api-reference' },
+  { text: 'Showcase', link: '/showcase' },
 ]
+
 const description = 'A modern, fast reverse proxy. For a better local development environment.'
 const title = 'audiox | A modern, fast reverse proxy. For a better local development environment.'
 
@@ -93,7 +110,7 @@ export default withPwa(
 
       ['meta', { property: 'og:site_name', content: 'audiox' }],
       ['meta', { property: 'og:image', content: './images/og-image.jpg' }],
-      ['meta', { property: 'og:url', content: 'https://reverse-proxy.sh/' }],
+      ['meta', { property: 'og:url', content: 'stacks-audiox.netlify.app' }],
       // ['script', { 'src': 'https://cdn.usefathom.com/script.js', 'data-site': '', 'data-spa': 'auto', 'defer': '' }],
       ...analyticsHead,
     ],
@@ -126,13 +143,6 @@ export default withPwa(
         { icon: 'github', link: 'https://github.com/stacksjs/audiox' },
         { icon: 'discord', link: 'https://discord.gg/stacksjs' },
       ],
-
-      // algolia: services.algolia,
-
-      // carbonAds: {
-      //   code: '',
-      //   placement: '',
-      // },
     },
 
     pwa: {
@@ -146,10 +156,6 @@ export default withPwa(
         light: 'github-light',
         dark: 'github-dark',
       },
-
-      codeTransformers: [
-        transformerTwoslash(),
-      ],
     },
 
     vite,
