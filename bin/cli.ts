@@ -1,12 +1,12 @@
 import type { AudioxOptions } from '../src/types'
 import process from 'node:process'
-import { CAC } from 'cac'
+import { CLI } from '@stacksjs/clapp'
 import { version } from '../package.json'
 import { audio } from '../src/audio'
 import { audioInfo } from '../src/audio-info'
 import { debugLog } from '../src/utils'
 
-const cli = new CAC('audiox')
+const cli = new CLI('audiox')
 
 cli
   .command('convert <input> [output]', 'Convert audio file to different format/settings')
