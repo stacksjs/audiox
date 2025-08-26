@@ -80,7 +80,7 @@
     "bumpp": "^10.1.0",
     "bun-git-hooks": "^0.2.19",
     "bun-plugin-dtsx": "^0.21.12",
-    "bunfig": "^0.8.5",
+    "bunfig": "^0.14.1",
     "cac": "^6.7.14",
     "changelogen": "^0.6.1",
     "consola": "^3.4.2",
