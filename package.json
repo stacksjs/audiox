@@ -68,7 +68,7 @@
     "zip:darwin-arm64": "zip -j bin/audiox-darwin-arm64.zip bin/audiox-darwin-arm64"
   },
   "devDependencies": {
-    "@stacksjs/bumpx": "^0.1.13",
+    "@stacksjs/bumpx": "^0.1.17",
     "@stacksjs/clapp": "^0.1.16",
     "@stacksjs/docs": "^0.70.23",
     "@stacksjs/eslint-config": "^3.13.1-beta.2",
@@ -76,7 +76,7 @@
     "@stacksjs/logsmith": "^0.1.8",
     "@stacksjs/tlsx": "^0.10.0",
     "@types/bun": "^1.2.12",
-    "buddy-bot": "^0.8.8",
+    "buddy-bot": "^0.8.9",
     "bumpp": "^10.1.0",
     "bun-git-hooks": "^0.2.19",
     "bun-plugin-dtsx": "^0.21.12",
@@ -93,9 +93,9 @@
   "git-hooks": {
     "pre-commit": {
       "staged-lint": {
-        "*.{js,ts,json,yaml,yml,md}": "bunx --bun eslint . --fix"
+        "*.{js,ts,json,yaml,yml,md}": "bunx --bun eslint --fix"
       }
     },
-    "commit-msg": "bunx gitlint .git/COMMIT_EDITMSG"
+    "commit-msg": "bunx gitlint --edit .git/COMMIT_EDITMSG"
   }
 }
