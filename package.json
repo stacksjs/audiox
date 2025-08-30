@@ -68,7 +68,7 @@
     "zip:darwin-arm64": "zip -j bin/audiox-darwin-arm64.zip bin/audiox-darwin-arm64"
   },
   "devDependencies": {
-    "@stacksjs/bumpx": "^0.1.26",
+    "@stacksjs/bumpx": "^0.1.33",
     "@stacksjs/clapp": "^0.1.16",
     "@stacksjs/docs": "^0.70.23",
     "@stacksjs/eslint-config": "^3.13.1-beta.2",
