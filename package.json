@@ -69,7 +69,7 @@
   },
   "devDependencies": {
     "@stacksjs/bumpx": "^0.1.17",
-    "@stacksjs/clapp": "^0.1.16",
+    "@stacksjs/clapp": "^0.2.0",
     "@stacksjs/docs": "^0.70.23",
     "@stacksjs/eslint-config": "^3.13.1-beta.2",
     "@stacksjs/gitlint": "^0.1.5",
