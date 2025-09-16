@@ -1,21 +1,24 @@
+import { Logger } from '@stacksjs/clarity'
 import { config } from './config'
+
+const baseLogger = new Logger('audiox')
 
 export function debugLog(category: string, message: string, verbose?: boolean | string[]): void {
   if (verbose === false) {
     return
   }
 
+  const logger = baseLogger.extend(category)
+
   if (verbose === true || config.verbose === true) {
-    // eslint-disable-next-line no-console
-    console.debug(`[audiox:${category}] ${message}`)
+    logger.debug(message)
   }
 
   if (Array.isArray(verbose)) {
     // Check if any of the verbose categories match the prefix
     const matches = verbose.some(prefix => category.startsWith(prefix))
     if (matches) {
-      // eslint-disable-next-line no-console
-      console.log(`[audiox:${category}] ${message}`)
+      logger.info(message)
     }
   }
 
@@ -23,8 +26,7 @@ export function debugLog(category: string, message: string, verbose?: boolean | 
     // Check if any of the verbose categories match the prefix
     const matches = config.verbose.some(prefix => category.startsWith(prefix))
     if (matches) {
-      // eslint-disable-next-line no-console
-      console.log(`[audiox:${category}] ${message}`)
+      logger.info(message)
     }
   }
 }
