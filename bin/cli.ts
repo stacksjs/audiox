@@ -1,14 +1,12 @@
 import type { AudioxOptions } from '../src/types'
 import process from 'node:process'
 import { CLI } from '@stacksjs/clapp'
-import { Logger } from '@stacksjs/clarity'
 import { version } from '../package.json'
 import { audio } from '../src/audio'
 import { audioInfo } from '../src/audio-info'
 import { debugLog } from '../src/utils'
 
 const cli = new CLI('audiox')
-const logger = new Logger('cli')
 
 cli
   .command('convert <input> [output]', 'Convert audio file to different format/settings')
@@ -70,7 +68,7 @@ cli
       debugLog('cli', 'Conversion complete', options.verbose)
     }
     catch (error: any) {
-      await logger.error('Error:', error.message)
+      console.error('Error:', error.message)
       process.exit(1)
     }
   })
@@ -91,26 +89,26 @@ cli
       const info = await audioInfo(input, infoOptions)
 
       // Pretty print the audio information
-      await logger.info('\nAudio Information:')
-      await logger.info('----------------')
+      console.log('\nAudio Information:')
+      console.log('----------------')
       for (const stream of info) {
-        await logger.info(`Codec: ${stream.codec}`)
-        await logger.info(`Channels: ${stream.channels}`)
-        await logger.info(`Sample Rate: ${stream.sampleRate} Hz`)
-        await logger.info(`Bitrate: ${Math.round(Number.parseInt(stream.bitrate) / 1000)}k`)
-        await logger.info(`Duration: ${Math.round(Number.parseFloat(stream.duration) * 100) / 100}s`)
+        console.log(`Codec: ${stream.codec}`)
+        console.log(`Channels: ${stream.channels}`)
+        console.log(`Sample Rate: ${stream.sampleRate} Hz`)
+        console.log(`Bitrate: ${Math.round(Number.parseInt(stream.bitrate) / 1000)}k`)
+        console.log(`Duration: ${Math.round(Number.parseFloat(stream.duration) * 100) / 100}s`)
 
         if (stream.metadata && Object.keys(stream.metadata).length > 0) {
-          await logger.info('\nMetadata:')
+          console.log('\nMetadata:')
           for (const [key, value] of Object.entries(stream.metadata)) {
-            await logger.info(`${key}: ${value}`)
+            console.log(`${key}: ${value}`)
           }
         }
-        await logger.info('----------------')
+        console.log('----------------')
       }
     }
     catch (error: any) {
-      await logger.error('Error:', error.message)
+      console.error('Error:', error.message)
       process.exit(1)
     }
   })
@@ -119,11 +117,11 @@ cli
   .command('completion', 'Generate shell completion script')
   .action(async () => {
     // TODO: Implement shell completion generation
-    await logger.info('Shell completion not implemented yet')
+    console.log('Shell completion not implemented yet')
   })
 
 cli.command('version', 'Show the version of the Reverse Proxy CLI').action(async () => {
-  await logger.info(version)
+  console.log(version)
 })
 
 cli.version(version)
