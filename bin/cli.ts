@@ -115,12 +115,12 @@ cli
 
 cli
   .command('completion', 'Generate shell completion script')
-  .action(() => {
+  .action(async () => {
     // TODO: Implement shell completion generation
     console.log('Shell completion not implemented yet')
   })
 
-cli.command('version', 'Show the version of the Reverse Proxy CLI').action(() => {
+cli.command('version', 'Show the version of the Reverse Proxy CLI').action(async () => {
   console.log(version)
 })
 
