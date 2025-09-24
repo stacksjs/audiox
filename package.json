@@ -70,7 +70,7 @@
   "devDependencies": {
     "@stacksjs/bumpx": "^0.1.84",
     "@stacksjs/clapp": "^0.2.0",
-    "@stacksjs/clarity": "^0.3.19",
+    "@stacksjs/clarity": "^0.3.23",
     "@stacksjs/docs": "^0.70.23",
     "@stacksjs/eslint-config": "^4.14.0-beta.3",
     "@stacksjs/gitlint": "^0.1.5",
@@ -86,7 +86,7 @@
     "changelogen": "^0.6.2",
     "consola": "^3.4.2",
     "typescript": "^5.9.2",
-    "unocss": "^66.5.1"
+    "unocss": "^66.5.2"
   },
   "overrides": {
     "unconfig": "0.3.10"
