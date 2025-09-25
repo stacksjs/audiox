@@ -14,7 +14,7 @@ export interface AudioxOptions {
     [key: string]: string
   }
   onError?: (error: unknown) => void
-  verbose: boolean | string[]
+  verbose?: boolean | string[]
 }
 
 export interface FfmpegAudioOptionsWithStreamOut {

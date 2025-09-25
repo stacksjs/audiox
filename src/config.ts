@@ -6,7 +6,6 @@ export const defaultConfig: AudioxConfig = {
   verbose: true,
 }
 
-// @ts-expect-error dtsx issue
 // eslint-disable-next-line antfu/no-top-level-await
 export const config: AudioxConfig = await loadConfig({
   name: 'audiox',
