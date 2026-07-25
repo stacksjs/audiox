@@ -328,7 +328,7 @@ Made with 💙
 [releases]: https://github.com/stacksjs/stacks/releases
 [contributing-guide]: https://github.com/stacksjs/contributing
 [discussions-on-github]: https://github.com/stacksjs/stacks/discussions
-[join-the-stacks-discord-server]: https://discord.gg/stacksjs
+[join-the-stacks-discord-server]: https://stacksjs.com/discord
 [jetbrains]: https://www.jetbrains.com/
 [the-solana-foundation]: https://solana.com/
 [bun-ffmpeg]: https://github.com/KenjiGinjo/bun-ffmpeg

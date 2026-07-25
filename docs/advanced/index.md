@@ -91,6 +91,6 @@ We welcome contributions to these advanced guides! If you have expertise in any 
 
 If you need help with these advanced topics:
 
-- Join our [Discord Community](https://discord.gg/stacksjs)
+- Join our [Discord Community](https://stacksjs.com/discord)
 - Check our [GitHub Discussions](https://github.com/stacksjs/stacks/discussions)
 - Review our [Issue Tracker](https://github.com/stacksjs/audiox/issues)
