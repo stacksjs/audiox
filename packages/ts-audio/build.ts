@@ -1,3 +1,14 @@
+/**
+ * `sideEffects: false` is deliberately absent from package.json.
+ *
+ * With it, Bun 1.3.14 eliminates modules reached only through re-exports and
+ * still emits their names in the export list, so dist/index.js exported 78
+ * identifiers that were never declared. The build reported success and the
+ * package threw on import -- which is what @ts-audio/core@0.1.1 published.
+ * Verified by toggling that flag alone: 78 undeclared with it, 0 without;
+ * neither minify nor the extra entrypoints made any difference.
+ */
+
 /* eslint-disable no-console, ts/no-top-level-await */
 import { build } from 'bun'
 import dts from 'bun-plugin-dtsx'
