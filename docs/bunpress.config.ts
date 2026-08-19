@@ -1,11 +1,13 @@
-import type { BunPressOptions } from 'bunpress'
+import type { BunPressOptions } from '@stacksjs/bunpress'
 
 const config: BunPressOptions = {
-  name: 'audiox',
+  title: 'audiox',
   description: 'Powerful audio processing for your media workflows',
   url: 'https://audiox.stacksjs.org',
-  theme: {
-    primaryColor: '#6366f1',
+  themeConfig: {
+    colors: {
+      primary: '#6366f1',
+    },
   },
   nav: [
     { text: 'Guide', link: '/intro' },
